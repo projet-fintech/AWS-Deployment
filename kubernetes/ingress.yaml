@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  annotations:
+    kubernetes.io/ingress.class: "alb"                       # Utilise le Load Balancer Controller
+    alb.ingress.kubernetes.io/scheme: internet-facing        # ALB public
+    alb.ingress.kubernetes.io/target-type: ip               # Cible les pods
+spec:
+  rules:
+    - host: auth.mondomaine.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: authentification-service
+                port:
+                  number: 80
+    - host: users.mondomaine.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: users-service
+                port:
+                  number: 80

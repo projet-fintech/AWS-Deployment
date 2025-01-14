@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-service
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "alb"  # Utilise un ALB
+    alb.ingress.kubernetes.io/scheme: internet-facing         # Public
+    alb.ingress.kubernetes.io/target-type: ip                # Cible les pods
+spec:
+  selector:
+    app: users
+  ports:
+    - protocol: TCP
+      port: 80           # Port exposé
+      targetPort: 8080   # Port du conteneur
+  type: LoadBalancer
