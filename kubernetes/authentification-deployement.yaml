@@ -1,31 +1,46 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: authentification
+  name: authentication-service
+  labels:
+    app: authentication-service
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: authentification
+      app: authentication-service
   template:
     metadata:
       labels:
-        app: authentification
+        app: authentication-service
     spec:
       containers:
-      - name: authentification
-        image: <aws_account_id>.dkr.ecr.<region>.amazonaws.com/authentification:latest
-        ports:
-        - containerPort: 8081
-        env:
-        - name: KAFKA_BOOTSTRAP_SERVERS
-          value: "kafka:9092"
-        - name: DATABASE_URL
-          value: "jdbc:mysql://<rds-endpoint>:3306/mydatabase"
-        - name: DATABASE_USERNAME
-          value: "admin"
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: db-secret
-              key: password
+        - name: authentication-service
+          image: 329599629502.dkr.ecr.eu-west-3.amazonaws.com/authentication-microservice:latest
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://database-1.c9smueeigd2l.eu-west-3.rds.amazonaws.com:3306/fintech_authentification"
+
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "admin"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "test-123456"
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: "kafka-broker:9092"
+            - name: SPRING_KAFKA_CONSUMER_GROUP_ID
+              value: "auth-service"
+            - name: SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET
+              value: "earliest"
+            - name: SPRING_KAFKA_CONSUMER_KEY_DESERIALIZER
+              value: "org.apache.kafka.common.serialization.StringDeserializer"
+            - name: SPRING_KAFKA_CONSUMER_VALUE_DESERIALIZER
+              value: "org.springframework.kafka.support.serializer.ErrorHandlingDeserializer"
+            - name: SPRING_KAFKA_CONSUMER_PROPERTIES_SPRING_DESERIALIZER_VALUE_DELEGATE
+              value: "org.springframework.kafka.support.serializer.JsonDeserializer"
+            - name: SPRING_KAFKA_CONSUMER_PROPERTIES_SPRING_JSON_TRUSTED_PACKAGES
+              value: "*"
+            - name: SPRING_KAFKA_LISTENER_MISSING_TOPICS_FATAL
+              value: "false"
+      restartPolicy: Always

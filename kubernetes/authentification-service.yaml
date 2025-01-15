@@ -3,14 +3,14 @@ kind: Service
 metadata:
   name: authentification-service
   annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "alb"  # Utilise un ALB
-    alb.ingress.kubernetes.io/scheme: internet-facing         # Accessible depuis internet
-    alb.ingress.kubernetes.io/target-type: ip                # Cible les pods
+    service.beta.kubernetes.io/aws-load-balancer-type: "alb"  
+    alb.ingress.kubernetes.io/scheme: internet-facing         
+    alb.ingress.kubernetes.io/target-type: ip                
 spec:
   selector:
     app: authentification
   ports:
     - protocol: TCP
-      port: 80           # Port exposé par l'ALB
-      targetPort: 8081   # Port du conteneur
+      port: 80           
+      targetPort: 8081   
   type: LoadBalancer
