@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: account-service
+  labels:
+    app: account-service
+spec:
+  replicas: 2  # Nombre de réplicas (pods)
+  selector:
+    matchLabels:
+      app: account-service
+  template:
+    metadata:
+      labels:
+        app: account-service
+    spec:
+      containers:
+        - name: account-service
+          image: 329599629502.dkr.ecr.eu-west-3.amazonaws.com/acount:latest
+          ports:
+            - containerPort: 8083
+          env:
+            - name: SPRING_APPLICATION_NAME
+              value: "account-service"
+            - name: SERVER_PORT
+              value: "8083"
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://database-1.c9smueeigd2l.eu-west-3.rds.amazonaws.com/fintech_acounts"  # Remplacez par l'URL de votre base de données
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "admin"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: ""  # Ajoutez le mot de passe de la base de données
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              value: "com.mysql.cj.jdbc.Driver"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+              value: "org.hibernate.dialect.MySQLDialect"
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: "update"
+            - name: SPRING_JPA_SHOW_SQL
+              value: "true"
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: "10.0.1.230:9092"
+            - name: SPRING_KAFKA_CONSUMER_GROUP_ID
+              value: "account-service-group"
+            - name: SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET
+              value: "earliest"
+            - name: SPRING_KAFKA_CONSUMER_KEY_DESERIALIZER
+              value: "org.apache.kafka.common.serialization.StringDeserializer"
+            - name: SPRING_KAFKA_CONSUMER_VALUE_DESERIALIZER
+              value: "org.springframework.kafka.support.serializer.JsonDeserializer"
+            - name: SPRING_KAFKA_CONSUMER_PROPERTIES_SPRING_JSON_TRUSTED_PACKAGES
+              value: "*"
+            - name: SPRING_KAFKA_PRODUCER_KEY_SERIALIZER
+              value: "org.apache.kafka.common.serialization.StringSerializer"
+            - name: SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER
+              value: "org.springframework.kafka.support.serializer.JsonSerializer"
+            - name: SPRING_KAFKA_REQUEST_TOPIC
+              value: "account-details-request-topic"
+            - name: SPRING_KAFKA_REPLY_TOPIC
+              value: "account-details-reply-topic"
+            - name: SPRING_KAFKA_TOPIC_ACCOUNT_UPDATE_TOPIC
+              value: "account-update-topic"
+            - name: SPRING_KAFKA_TOPIC_ACCOUNT_CREATED_TOPIC
+              value: "account-created-topic"
+            - name: ACCOUNT_FEE_SILVER
+              value: "50.0"
+            - name: ACCOUNT_FEE_GOLD
+              value: "100.0"
+            - name: ACCOUNT_FEE_TITANIUM
+              value: "150.0"
+            - name: SPRING_KAFKA_CONSUMER_PROPERTIES_SPRING_JSON_USE_TYPE_HEADERS
+              value: "true"
+            - name: SPRING_KAFKA_PRODUCER_PROPERTIES_SPRING_JSON_ADD_TYPE_HEADERS
+              value: "true"
+            - name: SPRING_KAFKA_LISTENER_MISSING_TOPICS_FATAL
+              value: "false"
+            - name: TRANSACTION_SERVICE_URL
+              value: "http://votre-service-transaction:8084"  # Remplacez par l'URL du service de transaction

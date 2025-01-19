@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: loan-model-service
+  labels:
+    app: loan-model-service
+spec:
+  type: ClusterIP  # Pour exposer le service en externe
+  ports:
+    - port: 5000
+      targetPort: 5000  # Port du conteneur
+  selector:
+    app: loan-model

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-admin-app
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend-admin-app
+  template:
+    metadata:
+      labels:
+        app: frontend-admin-app
+    spec:
+      containers:
+        - name: frontend-admin-app
+          image: 329599629502.dkr.ecr.eu-west-3.amazonaws.com/frontend_admin_dashboard:1
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef:
+                name: frontend-config-adminap

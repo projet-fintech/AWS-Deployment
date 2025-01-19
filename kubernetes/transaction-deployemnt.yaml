@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transactions-deployment
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: transactions
+  template:
+    metadata:
+      labels:
+        app: transactions
+    spec:
+      containers:
+        - name: transactions
+          image: 329599629502.dkr.ecr.eu-west-3.amazonaws.com/transaction:35
+          ports:
+            - containerPort: 8084
+          env:
+            - name: SPRING_APPLICATION_NAME
+              value: "Transactions"
+            - name: SERVER_PORT
+              value: "8084"
+            - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY
+              value: "DEBUG"
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://database-1.c9smueeigd2l.eu-west-3.rds.amazonaws.com:3306/fintech_transaction"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "admin"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: ""
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              value: "com.mysql.cj.jdbc.Driver"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+              value: "org.hibernate.dialect.MySQLDialect"
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: "update"
+            - name: SPRING_JPA_SHOW_SQL
+              value: "true"
+            - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+              value: "10.0.1.230:9092"
+            - name: SPRING_KAFKA_CONSUMER_GROUP_ID
+              value: "transaction-service"
+            - name: SPRING_KAFKA_TOPIC_ACCOUNT_DETAILS_REPLY_TOPIC
+              value: "account-details-reply-topic"
+            - name: SPRING_KAFKA_TOPIC_ACCOUNT_DETAILS_REQUEST_TOPIC
+              value: "account-details-request-topic"
+            - name: SPRING_KAFKA_TOPIC_TRANSACTION_TOPIC
+              value: "transaction-topic"
+            - name: SPRING_KAFKA_TOPIC_STATEMENT_GENERATED_TOPIC
+              value: "statement-generated-topic"
+            - name: SPRING_KAFKA_TOPIC_FEE_PAYMENT_TOPIC
+              value: "fee-payment-topic"
+            - name: SPRING_KAFKA_TOPIC_ACCOUNT_UPDATE_TOPIC
+              value: "account-update-topic"
+            - name: ACCOUNT_SERVICE_URL
+              value: "http://account-service/accounts"
+            - name: SPRING_KAFKA_PRODUCER_KEY_SERIALIZER
+              value: "org.apache.kafka.common.serialization.StringSerializer"
+            - name: SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER
+              value: "org.springframework.kafka.support.serializer.JsonSerializer"
+            - name: SPRING_KAFKA_CONSUMER_PROPERTIES_SPRING_JSON_TRUSTED_PACKAGES
+              value: "*"
+            - name: SPRING_KAFKA_CONSUMER_PROPERTIES_SPRING_JSON_USE_TYPE_HEADERS
+              value: "true"
+            - name: SPRING_KAFKA_PRODUCER_PROPERTIES_SPRING_JSON_ADD_TYPE_HEADERS
+              value: "true"
+            - name: SPRING_KAFKA_LISTENER_MISSING_TOPICS_FATAL
+              value: "false"

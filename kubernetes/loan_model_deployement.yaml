@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loan-model
+  labels:
+    app: loan-model
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: loan-model
+  template:
+    metadata:
+      labels:
+        app: loan-model
+    spec:
+      containers:
+        - name: loan-model
+          image: 329599629502.dkr.ecr.eu-west-3.amazonaws.com/loanaproval:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: FLASK_ENV
+              value: "production"
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"

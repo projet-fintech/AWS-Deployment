@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notifications-microservice
+  labels:
+    app: notifications-microservice
+spec:
+  replicas: 2  # Nombre de réplicas (pods)
+  selector:
+    matchLabels:
+      app: notifications-microservice
+  template:
+    metadata:
+      labels:
+        app: notifications-microservice
+    spec:
+      containers:
+        - name: notifications-microservice
+          image: 329599629502.dkr.ecr.eu-west-3.amazonaws.com/notification:4  # Remplacez par votre image Docker
+          ports:
+            - containerPort: 8085  # Le port sur lequel votre application écoute
+          env:
+            - name: SPRING_APPLICATION_NAME
+              value: "Notifications-Micorservice"
+            - name: SPRING_MAIL_HOST
+              value: "smtp.gmail.com"
+            - name: SPRING_MAIL_PORT
+              value: "587"
+            - name: SPRING_MAIL_USERNAME
+              value: "mouadrguibi900@gmail.com"
+            - name: SPRING_MAIL_PASSWORD
+              value: "dhkftzoymiikjsil"
+            - name: SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH
+              value: "true"
+            - name: SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE
+              value: "true"
+            - name: SERVER_PORT
+              value: "8085"
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://database-1.c9smueeigd2l.eu-west-3.rds.amazonaws.com/fintech_notification"  # Remplacez par l'URL de votre base de données
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "admin"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: ""  # Ajoutez le mot de passe de la base de données
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              value: "com.mysql.cj.jdbc.Driver"
+            - name: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
+              value: "org.hibernate.dialect.MySQLDialect"
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              value: "update"
+            - name: SPRING_JPA_SHOW_SQL
+              value: "true"

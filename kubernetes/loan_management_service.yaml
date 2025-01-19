@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: loan-management-service  # Nom du Service
+  labels:
+    app: loan-management  # Label pour associer ce Service au Deployment
+spec:
+  type: ClusterIP  # Type de Service (ClusterIP est la valeur par défaut)
+  ports:
+    - port: 8087  # Port sur lequel le Service est exposé
+      targetPort: 8087  # Port sur lequel le conteneur écoute
+  selector:
+    app: loan-management  # Sélecteur pour associer ce Service aux Pods du Deployment

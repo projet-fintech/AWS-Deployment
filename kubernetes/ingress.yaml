@@ -1,30 +1,60 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: app-ingress
+  name: authentication-ingress
+  namespace: default
   annotations:
-    kubernetes.io/ingress.class: "alb"                       # Utilise le Load Balancer Controller
-    alb.ingress.kubernetes.io/scheme: internet-facing        # ALB public
-    alb.ingress.kubernetes.io/target-type: ip               # Cible les pods
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "http://adf38ef4bda5a4593988746d5c88f68a-935047858.eu-west-3.elb.amazonaws.com"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
 spec:
+  ingressClassName: nginx
   rules:
-    - host: auth.mondomaine.com
-      http:
+    - http:  # <-- Pas de champ `host`, toutes les requêtes sont acceptées
         paths:
-          - path: /
+          - path: /auth
             pathType: Prefix
             backend:
               service:
-                name: authentification-service
+                name: authentication-service
                 port:
-                  number: 80
-    - host: users.mondomaine.com
-      http:
-        paths:
-          - path: /
+                  number: 8081
+
+          - path: /accounts
             pathType: Prefix
             backend:
               service:
-                name: users-service
+                name: account-service
                 port:
-                  number: 80
+                  number: 8083
+          - path: /api/Operation
+            pathType: Prefix
+            backend:
+              service:
+                name: transactions-service
+                port:
+                  number: 8084
+          - path: /api/loan-applications
+            pathType: Prefix
+            backend:
+              service:
+                name: loan-management-service
+                port:
+                  number: 8087
+
+          - path: /api/prediction
+            pathType: Prefix
+            backend:
+              service:
+                name: loan-management-service
+                port:
+                  number: 8087
+          - path: /users
+            pathType: Prefix
+            backend:
+              service:
+                name: users-microservice
+                port:
+                  number: 8082
