@@ -133,6 +133,17 @@ The diagram above illustrates the architecture of an Elastic Kubernetes Service 
 ### the home page of our project from aws url 
 ![image](https://github.com/user-attachments/assets/41209654-d017-43f1-9924-4844105e9d7c)
 
+### Ressources :
+https://www.eksworkshop.com/docs/introduction/
+
+https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html
+
+![WhatsApp Image 2025-01-20 at 03 21 36_d91fa3f2](https://github.com/user-attachments/assets/4839e15c-da26-4c56-a9b2-b7ef1c35c2eb)
+
+![image](https://github.com/user-attachments/assets/4f2e5627-603d-4bec-b8ad-55286fabfa91)
+
+
+
 
 
 
