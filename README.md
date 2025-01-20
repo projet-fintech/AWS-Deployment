@@ -101,6 +101,12 @@ The diagram above illustrates the architecture of an Elastic Kubernetes Service 
   - It ensures proper distribution of requests and facilitates secure access from the internet to the frontend services.
 
 
+### the home page of our project from aws url 
+![image](https://github.com/user-attachments/assets/41209654-d017-43f1-9924-4844105e9d7c)
+
+
+
+
 
 
 
