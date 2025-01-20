@@ -61,6 +61,35 @@ To monitor both the infrastructure and applications, the following tools were se
 ## Automation with Terraform
 Terraform was used to declaratively manage the entire infrastructure. The `data` command in Terraform was leveraged to dynamically retrieve VPC and subnet IDs, enabling seamless and scalable service integration within AWS.
 
+## Automation with Terraform
+Terraform was used to declaratively manage the entire infrastructure. The `data` command in Terraform was leveraged to dynamically retrieve VPC and subnet IDs, enabling seamless and scalable service integration within AWS.
+
+### Terraform Commands to Manage Infrastructure
+
+Below are the essential Terraform commands used to initialize, plan, apply, and manage the infrastructure:
+
+### 1. Initialize Terraform  
+This command initializes the Terraform working directory and downloads necessary provider plugins.  
+```bash
+terraform init
+```
+### 2.Terraform Plan Command
+
+The `terraform plan` command is used to create an execution plan
+```bash
+terraform plan
+```
+### 3. Apply Configuration
+Applies the changes required 
+```bash
+terraform apply
+```
+### 4.Destroy Infrastructure
+```bash
+terraform destroy
+```
+
+
 
 ## Elastic Kubernetes Cluster Architecture
 ![WhatsApp Image 2025-01-20 at 00 18 11_161e522d](https://github.com/user-attachments/assets/cebfcf4b-5b46-4784-9748-18f2edd22a62)
